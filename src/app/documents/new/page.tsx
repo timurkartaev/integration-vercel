@@ -3,16 +3,7 @@
 import { DocumentForm } from '@/components/documents/document-form';
 import { useRouter } from 'next/navigation';
 import { getAuthHeaders } from '@/lib/fetch-utils';
-import { z } from 'zod';
-
-// Export the schema so it's used as a value, not just a type
-export const documentSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  templateId: z.string().min(1, 'Template is required'),
-  variables: z.record(z.union([z.string(), z.number(), z.boolean()])),
-});
-
-type FormValues = z.infer<typeof documentSchema>;
+import { FormValues } from './schema';
 
 export default function NewDocumentPage() {
   const router = useRouter();

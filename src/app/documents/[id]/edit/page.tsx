@@ -8,16 +8,8 @@ import { useEffect, useState } from 'react';
 import { authenticatedFetcher } from '@/lib/fetch-utils';
 import { use } from 'react';
 import { getAuthHeaders } from '@/lib/fetch-utils';
-import { z } from 'zod';
 import { useRouter } from 'next/navigation';
-
-const documentSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  templateId: z.string().min(1, 'Template is required'),
-  variables: z.record(z.union([z.string(), z.number(), z.boolean()])),
-});
-
-type FormValues = z.infer<typeof documentSchema>;
+import { FormValues, documentSchema } from './schema';
 
 interface PageProps {
   params: Promise<{ id: string }>;
