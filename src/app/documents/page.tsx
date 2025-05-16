@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Document } from '@/types/document';
-import { authenticatedFetcher } from '@/lib/fetch-utils';
+import { authenticatedFetcher, getAuthHeaders } from '@/lib/fetch-utils';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import {
@@ -44,9 +44,15 @@ export default function DocumentsPage() {
     }
 
     try {
-      await authenticatedFetcher(`/api/documents/${id}`, {
+      const response = await fetch(`/api/documents/${id}`, {
         method: 'DELETE',
+        headers: getAuthHeaders()
       });
+      
+      if (!response.ok) {
+        throw new Error('Failed to delete document');
+      }
+      
       await loadDocuments();
     } catch (error) {
       console.error('Error deleting document:', error);
